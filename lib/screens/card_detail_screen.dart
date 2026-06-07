@@ -17,8 +17,10 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        context.read<TcgProvider>().fetchCardDetail(widget.cardId));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<TcgProvider>().fetchCardDetail(widget.cardId);
+    });
   }
 
   @override
@@ -53,9 +55,9 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                 imageUrl: '${card.image}/high.png',
                 height: 350,
                 fit: BoxFit.contain,
-                placeholder: (_, __) =>
+                placeholder: (_, _) =>
                     const Center(child: CircularProgressIndicator()),
-                errorWidget: (_, __, ___) =>
+                errorWidget: (_, _, _) =>
                     const Icon(Icons.image_not_supported, size: 80),
               ),
             ),

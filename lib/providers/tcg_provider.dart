@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import '../models/tcg_set.dart';
 import '../models/tcg_card.dart';
 import '../services/tcg_service.dart';
@@ -8,6 +9,7 @@ class TcgProvider extends ChangeNotifier {
 
   List<TcgSet> sets = [];
   List<TcgCard> cards = [];
+  List<TcgCard> openedPack = [];
   TcgCard? selectedCard;
 
   bool isLoadingSets = false;
@@ -34,6 +36,7 @@ class TcgProvider extends ChangeNotifier {
   Future<void> fetchCards(String setId) async {
     isLoadingCards = true;
     errorMessage = null;
+    openedPack = [];
     notifyListeners();
 
     try {
@@ -44,6 +47,19 @@ class TcgProvider extends ChangeNotifier {
       isLoadingCards = false;
       notifyListeners();
     }
+  }
+
+  void openPack({int cardCount = 5}) {
+    if (cards.isEmpty) {
+      openedPack = [];
+      notifyListeners();
+      return;
+    }
+
+    final random = Random();
+    final shuffledCards = [...cards]..shuffle(random);
+    openedPack = shuffledCards.take(cardCount).toList();
+    notifyListeners();
   }
 
   Future<void> fetchCardDetail(String cardId) async {

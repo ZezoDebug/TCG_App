@@ -16,7 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState(){
     super.initState();
-    Future.microtask(() => context.read<TcgProvider>());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<TcgProvider>().fetchSets();
+    });
   }
 
   @override
@@ -104,9 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
               CachedNetworkImage(
                 imageUrl: '${set.logo}.png',
                 fit: BoxFit.contain,
-                placeholder: (_, __) => 
+                placeholder: (_, _) => 
                   const Center(child: CircularProgressIndicator()),
-                errorWidget: (_, __, ___) => 
+                errorWidget: (_, _, _) => 
                   const Icon(Icons.image_not_supported),
               ),
             Positioned(
@@ -140,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child:  CachedNetworkImage(
                 imageUrl: '${set.logo}.png',
                 fit: BoxFit.contain,
-                errorWidget: (_, __, ___) =>
+                errorWidget: (_, _, _) =>
                     const Icon(Icons.style),
               ),
             )
