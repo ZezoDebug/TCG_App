@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'providers/auth_provider.dart';
 import 'providers/tcg_provider.dart';
 import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // necessário antes do banco
   runApp(const MainApp());
 }
 
@@ -12,8 +15,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => TcgProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => TcgProvider()),
+      ],
       child: MaterialApp(
         title: 'TCG App',
         debugShowCheckedModeBanner: false,
@@ -24,8 +30,19 @@ class MainApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const HomeScreen(),
+        home: const _AuthWrapper(),
       ),
     );
+  }
+}
+
+// Decide qual tela mostrar com base no estado de login
+class _AuthWrapper extends StatelessWidget {
+  const _AuthWrapper();
+
+  @override
+  Widget build(BuildContext context) {
+    final isLogged = context.watch<AuthProvider>().isLoggedIn;
+    return isLogged ? const HomeScreen() : const LoginScreen();
   }
 }

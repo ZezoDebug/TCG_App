@@ -4,7 +4,7 @@ import '../models/tcg_set.dart';
 import '../models/tcg_card.dart';
 
 class TcgService {
-  static const String _baseUrlPt = 'https://api.tcgdex.net/v2/pt-BR';
+  static const String _baseUrlPt = 'https://api.tcgdex.net/v2/pt-br';
   static const String _baseUrlEn = 'https://api.tcgdex.net/v2/en';
 
   Future<http.Response> _getWithFallback(String path) async {
