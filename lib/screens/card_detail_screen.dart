@@ -92,22 +92,73 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
   }
 
   Widget _buildCardStage(TcgCard card) {
+    final cardImage = Hero(
+      tag: card.id,
+      child: card.image != null
+          ? CachedNetworkImage(
+              imageUrl: '${card.image}/high.png',
+              height: 420,
+              fit: BoxFit.contain,
+              placeholder: (_, _) =>
+                  const Center(child: CircularProgressIndicator()),
+              errorWidget: (_, _, _) =>
+                  const Icon(Icons.image_not_supported, size: 80),
+            )
+          : const Icon(Icons.style, size: 80),
+    );
+
+    if (!_isFourDiamond(card)) {
+      return Center(child: cardImage);
+    }
+
     return Center(
-      child: Hero(
-        tag: card.id,
-        child: card.image != null
-            ? CachedNetworkImage(
-                imageUrl: '${card.image}/high.png',
-                height: 420,
-                fit: BoxFit.contain,
-                placeholder: (_, _) =>
-                    const Center(child: CircularProgressIndicator()),
-                errorWidget: (_, _, _) =>
-                    const Icon(Icons.image_not_supported, size: 80),
-              )
-            : const Icon(Icons.style, size: 80),
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(22),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFFFFF4B8),
+              Color(0xFFFFC857),
+              Color(0xFFFF9F1C),
+              Color(0xFFFFF4B8),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: _rareColor.withValues(alpha: 0.55),
+              blurRadius: 26,
+              spreadRadius: 1,
+            ),
+            BoxShadow(
+              color: const Color(0xFFFFF4B8).withValues(alpha: 0.34),
+              blurRadius: 10,
+              spreadRadius: -1,
+            ),
+          ],
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(3),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(19),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.45),
+              width: 1.2,
+            ),
+          ),
+          child: cardImage,
+        ),
       ),
     );
+  }
+
+  bool _isFourDiamond(TcgCard card) {
+    final rarity = card.rarity?.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
+    if (rarity == null) return false;
+    return rarity.contains('fourdiamond');
   }
 
   Widget _buildTypeChips(TcgCard card) {
