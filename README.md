@@ -98,7 +98,7 @@ flutter build ios
 - **Nome:** Daniel Victor Costa | **RA:** 1989218  :man_technologist:
 - **Nome:** Gustavo Henrique Vieira da Silva | **RA:** 1992080  :man_technologist:
 - **Nome:** Joaquim Fernando Sant'ana Moreira | **RA:** 1993917 :man_technologist:
-- **Nome:** José Vitor de Almida Lima | **RA:** 1994104 :man_technologist:
+- **Nome:** José Vitor de Almeida Lima | **RA:** 1994104 :man_technologist:
 
 ### Informações Acadêmicas
 - **Universidade:** UNIMAR - Universidade de Marília :school:
