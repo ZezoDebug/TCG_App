@@ -15,9 +15,9 @@ class CardDetailScreen extends StatefulWidget {
 }
 
 class _CardDetailScreenState extends State<CardDetailScreen> {
-  static const _surfaceColor = Color(0xFF171B31);
-  static const _accentColor = Color(0xFF6C63FF);
-  static const _rareColor = Color(0xFFFFC857);
+  static const _surfaceColor = Colors.white;
+  static const _accentColor = Colors.red;
+  static const _rareColor = Colors.redAccent;
 
   @override
   void initState() {
@@ -145,7 +145,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
             color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(19),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.45),
+              color: Colors.black26,
               width: 1.2,
             ),
           ),
@@ -201,7 +201,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
       decoration: BoxDecoration(
         color: _surfaceColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
+        border: Border.all(color: Colors.black12),
       ),
       child: Column(
         children: [
@@ -239,7 +239,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                 Text(
                   label,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.58),
+                    color: Colors.black54,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
@@ -281,7 +281,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
             const SizedBox(height: 8),
             Text(
               message,
-              style: TextStyle(color: Colors.white.withValues(alpha: 0.64)),
+              style: const TextStyle(color: Colors.black54),
               textAlign: TextAlign.center,
             ),
           ],

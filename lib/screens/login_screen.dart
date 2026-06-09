@@ -12,9 +12,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  static const _surfaceColor = Color(0xFF171B31);
-  static const _accentColor = Color(0xFF6C63FF);
-  static const _warmAccentColor = Color(0xFFFFC857);
+  static const _surfaceColor = Colors.white;
+  static const _accentColor = Colors.red;
+  static const _warmAccentColor = Colors.redAccent;
 
   final _username = TextEditingController();
   final _password = TextEditingController();
@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'Entre para explorar coleções, cartas e abrir packs.',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.62),
+            color: Colors.black87,
             fontSize: 15,
           ),
         ),
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: BoxDecoration(
         color: _surfaceColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
+        border: Border.all(color: Colors.black12),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.22),
@@ -206,14 +206,14 @@ class _LoginScreenState extends State<LoginScreen> {
         prefixIcon: Icon(icon),
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: const Color(0xFF0D1020),
+        fillColor: Colors.grey.shade100,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+          borderSide: const BorderSide(color: Colors.black12),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+          borderSide: const BorderSide(color: Colors.black12),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -229,7 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         Text(
           'Ainda nao tem conta?',
-          style: TextStyle(color: Colors.white.withValues(alpha: 0.62)),
+          style: const TextStyle(color: Colors.black54),
         ),
         TextButton(
           onPressed: () => Navigator.push(

@@ -15,9 +15,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const _surfaceColor = Color(0xFF171B31);
-  static const _accentColor = Color(0xFF6C63FF);
-  static const _warmAccentColor = Color(0xFFFFC857);
+  static const _surfaceColor = Colors.white;
+  static const _accentColor = Colors.red;
+  static const _warmAccentColor = Colors.redAccent;
 
   @override
   void initState() {
@@ -129,13 +129,13 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        border: Border.all(color: Colors.black12),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.white.withValues(alpha: 0.12),
-            Colors.white.withValues(alpha: 0.04),
+            Colors.red.shade50,
+            Colors.white,
           ],
         ),
       ),
@@ -157,9 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 14),
-          const Text(
+          Text(
             'Explore coleções, abra packs e descubra suas cartas favoritas.',
-            style: TextStyle(
+            style: const TextStyle(
+              color: Colors.black87,
               fontSize: 28,
               height: 1.08,
               fontWeight: FontWeight.w900,
@@ -199,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D1020).withValues(alpha: 0.5),
+        color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
@@ -218,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text(
                 label,
-                style: TextStyle(color: Colors.white.withValues(alpha: 0.62)),
+                style: const TextStyle(color: Colors.black54),
               ),
             ],
           ),
@@ -241,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 4),
         Text(
           subtitle,
-          style: TextStyle(color: Colors.white.withValues(alpha: 0.62)),
+          style: const TextStyle(color: Colors.black54),
         ),
       ],
     );
@@ -268,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 8),
             Text(
               message,
-              style: TextStyle(color: Colors.white.withValues(alpha: 0.64)),
+              style: const TextStyle(color: Colors.black54),
               textAlign: TextAlign.center,
             ),
           ],
@@ -284,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           color: _surfaceColor,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+          border: Border.all(color: Colors.black12),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.22),
@@ -357,7 +358,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.1),
+        color: Colors.black12,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
@@ -383,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 58,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.06),
+                  color: Colors.black12,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: set.logo != null && set.logo!.isNotEmpty
@@ -411,8 +412,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       set.cardCount != null
                           ? '${set.cardCount} cartas na colecao'
                           : 'Colecao TCG',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.58),
+                      style: const TextStyle(
+                        color: Colors.black54,
                       ),
                     ),
                   ],

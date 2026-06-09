@@ -25,27 +25,28 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF6C63FF),
-            brightness: Brightness.dark,
+            seedColor: Colors.red,
+            brightness: Brightness.light,
           ),
           useMaterial3: true,
-          scaffoldBackgroundColor: const Color(0xFF0D1020),
+          scaffoldBackgroundColor: Colors.white,
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.red,
             foregroundColor: Colors.white,
             elevation: 0,
             centerTitle: true,
           ),
           cardTheme: CardThemeData(
-            color: const Color(0xFF171B31),
-            elevation: 0,
+            color: Colors.white,
+            elevation: 4,
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
+              side: const BorderSide(color: Colors.black12, width: 1),
             ),
           ),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color(0xFF6C63FF),
+            backgroundColor: Colors.red,
             foregroundColor: Colors.white,
           ),
         ),

@@ -17,9 +17,9 @@ class CardsScreen extends StatefulWidget {
 }
 
 class _CardsScreenState extends State<CardsScreen> {
-  static const _surfaceColor = Color(0xFF171B31);
-  static const _accentColor = Color(0xFF6C63FF);
-  static const _rareColor = Color(0xFFFFC857);
+  static const _surfaceColor = Colors.white;
+  static const _accentColor = Colors.red;
+  static const _rareColor = Colors.redAccent;
 
   @override
   void initState() {
@@ -96,11 +96,11 @@ class _CardsScreenState extends State<CardsScreen> {
         16,
         24,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF21274A), Color(0xFF0D1020)],
+          colors: [Colors.red.shade50, Colors.white],
         ),
       ),
       child: Column(
@@ -124,8 +124,8 @@ class _CardsScreenState extends State<CardsScreen> {
                     const SizedBox(height: 8),
                     Text(
                       'Toque em uma carta para ver detalhes em alta resolucao.',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.64),
+                      style: const TextStyle(
+                        color: Colors.black54,
                       ),
                     ),
                   ],
@@ -154,9 +154,9 @@ class _CardsScreenState extends State<CardsScreen> {
       height: 76,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
+        color: Colors.black12,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        border: Border.all(color: Colors.black12),
       ),
       child: widget.set.logo != null && widget.set.logo!.isNotEmpty
           ? CachedNetworkImage(
@@ -172,7 +172,7 @@ class _CardsScreenState extends State<CardsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
+        color: Colors.black12,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
@@ -208,8 +208,8 @@ class _CardsScreenState extends State<CardsScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.white.withValues(alpha: 0.1),
-                          Colors.black.withValues(alpha: 0.08),
+                          Colors.black12,
+                          Colors.black26,
                         ],
                       ),
                     ),
@@ -294,7 +294,7 @@ class _CardsScreenState extends State<CardsScreen> {
             const SizedBox(height: 8),
             Text(
               message,
-              style: TextStyle(color: Colors.white.withValues(alpha: 0.64)),
+              style: const TextStyle(color: Colors.black54),
               textAlign: TextAlign.center,
             ),
           ],
@@ -313,110 +313,133 @@ class _CardsScreenState extends State<CardsScreen> {
       backgroundColor: _surfaceColor,
       builder: (context) {
         final packCards = context.watch<TcgProvider>().openedPack;
+        if (packCards.isEmpty) return const SizedBox();
 
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: _rareColor.withValues(alpha: 0.14),
-                        shape: BoxShape.circle,
+        int currentIndex = 0;
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            final card = packCards[currentIndex];
+
+            return GestureDetector(
+              onTap: () {
+                if (currentIndex < packCards.length - 1) {
+                  setState(() => currentIndex++);
+                } else {
+                  Navigator.pop(context);
+                }
+              },
+              behavior: HitTestBehavior.opaque,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 42,
+                            height: 42,
+                            decoration: BoxDecoration(
+                              color: _rareColor.withValues(alpha: 0.14),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.inventory_2, color: _rareColor),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'Pack aberto (${currentIndex + 1}/${packCards.length})',
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: 'Fechar',
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.close),
+                          ),
+                        ],
                       ),
-                      child: const Icon(Icons.inventory_2, color: _rareColor),
-                    ),
-                    const SizedBox(width: 12),
-                    const Expanded(
-                      child: Text(
-                        'Pack aberto',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        height: 380,
+                        child: Center(
+                          child: _buildPackCard(card),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      tooltip: 'Abrir outro pack',
-                      onPressed: () => context.read<TcgProvider>().openPack(),
-                      icon: const Icon(Icons.refresh),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 14),
-                SizedBox(
-                  height: 292,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: packCards.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 12),
-                    itemBuilder: (context, index) {
-                      return _buildPackCard(packCards[index]);
-                    },
+                      const SizedBox(height: 24),
+                      Text(
+                        currentIndex < packCards.length - 1 
+                            ? 'Toque na tela para a proxima carta'
+                            : 'Toque na tela para fechar',
+                        style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.w700),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
   }
 
   Widget _buildPackCard(TcgCard card) {
-    return SizedBox(
-      width: 162,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () {
-          Navigator.pop(context);
-          _navigateToDetail(card);
-        },
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: const Color(0xFF0D1020),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: card.image != null
-                    ? CachedNetworkImage(
-                        imageUrl: '${card.image}/low.png',
-                        fit: BoxFit.contain,
-                        placeholder: (_, _) =>
-                            const Center(child: CircularProgressIndicator()),
-                        errorWidget: (_, _, _) =>
-                            const Icon(Icons.image_not_supported, size: 40),
-                      )
-                    : const Icon(Icons.style, size: 40),
+    return AspectRatio(
+      aspectRatio: 0.7,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.black12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 16,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: card.image != null
+                  ? CachedNetworkImage(
+                      imageUrl: '${card.image}/high.png',
+                      fit: BoxFit.contain,
+                      placeholder: (_, _) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (_, _, _) =>
+                          const Icon(Icons.image_not_supported, size: 60),
+                    )
+                  : const Icon(Icons.style, size: 60),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              card.name,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
               ),
-              const SizedBox(height: 9),
-              Text(
-                card.name,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w800,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            if (card.rarity != null) ...[
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.center,
+                child: _buildRarityBadge(card.rarity!),
               ),
-              if (card.rarity != null) ...[
-                const SizedBox(height: 6),
-                _buildRarityBadge(card.rarity!),
-              ],
             ],
-          ),
+          ],
         ),
       ),
     );

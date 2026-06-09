@@ -12,10 +12,11 @@ class TcgSet {
   });
 
   factory TcgSet.fromJson(Map<String, dynamic> json){
+    final id = json['id'] ?? '';
     return TcgSet(
-      id: json['id'] ?? '',
+      id: id,
       name: json['name'] ?? '',
-      logo: json['logo'] ?? '',
+      logo: id.isNotEmpty ? 'https://assets.tcgdex.net/en/tcgp/$id/logo' : '',
       cardCount: json['cardCount']?['total'],
     );
   }
