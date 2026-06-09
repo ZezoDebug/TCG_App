@@ -1,5 +1,3 @@
-// lib/models/user.dart  (arquivo NOVO)
-
 class User {
   final int? id;
   final String username;

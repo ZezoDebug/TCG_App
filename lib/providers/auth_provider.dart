@@ -1,5 +1,3 @@
-// lib/providers/auth_provider.dart  (arquivo NOVO)
-
 import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/database_helper.dart';
@@ -12,7 +10,7 @@ class AuthProvider extends ChangeNotifier {
 
   final _db = DatabaseHelper();
 
-  // Retorna null em caso de sucesso, ou mensagem de erro
+
   Future<String?> login(String username, String password) async {
     if (username.isEmpty || password.isEmpty) {
       return 'Preencha todos os campos';
@@ -20,7 +18,7 @@ class AuthProvider extends ChangeNotifier {
     final user = await _db.login(username.trim(), password);
     if (user != null) {
       _currentUser = user;
-      notifyListeners(); // avisa os widgets para reconstruir
+      notifyListeners();
       return null;
     }
     return 'Usuário ou senha incorretos';
