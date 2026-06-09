@@ -91,16 +91,6 @@ flutter build ios
 -   Estrutura escalável para apps mobile
 
 ---
-
-## 📌 Melhorias futuras
-
--   Integração com API real de TCG
--   Sistema completo de login
--   Favoritar cartas
--   Filtros e busca avançada
--   Persistência local (SQLite ou Hive)
-
----
 ## Informacões Adicionais
 ### :busts_in_silhouette: Integrantes
 
