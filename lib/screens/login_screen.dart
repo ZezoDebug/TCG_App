@@ -1,17 +1,21 @@
-// lib/screens/login_screen.dart  (arquivo NOVO)
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/auth_provider.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  static const _surfaceColor = Color(0xFF171B31);
+  static const _accentColor = Color(0xFF6C63FF);
+  static const _warmAccentColor = Color(0xFFFFC857);
+
   final _username = TextEditingController();
   final _password = TextEditingController();
   bool _loading = false;
@@ -34,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _loading = false);
     if (err != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(err), backgroundColor: Colors.red),
+        SnackBar(content: Text(err), backgroundColor: Colors.red.shade700),
       );
     }
   }
@@ -43,78 +47,201 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Icon(Icons.style, size: 72),
-              const SizedBox(height: 12),
-              const Text(
-                'TCG App',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 430),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildBrandHeader(),
+                  const SizedBox(height: 26),
+                  _buildLoginCard(),
+                  const SizedBox(height: 18),
+                  _buildRegisterLink(),
+                ],
               ),
-              const SizedBox(height: 6),
-              const Text(
-                'Faça login para continuar',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
-              ),
-              const SizedBox(height: 36),
-              TextField(
-                controller: _username,
-                decoration: const InputDecoration(
-                  labelText: 'Usuário',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(),
-                ),
-                textInputAction: TextInputAction.next,
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _password,
-                obscureText: _hide,
-                decoration: InputDecoration(
-                  labelText: 'Senha',
-                  prefixIcon: const Icon(Icons.lock),
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _hide ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () => setState(() => _hide = !_hide),
-                  ),
-                ),
-                onSubmitted: (_) => _login(),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _loading ? null : _login,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-                child: _loading
-                    ? const SizedBox(
-                        width: 20, height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Entrar', style: TextStyle(fontSize: 16)),
-              ),
-              TextButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const RegisterScreen(),
-                  ),
-                ),
-                child: const Text('Não tem conta? Cadastre-se'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBrandHeader() {
+    return Column(
+      children: [
+        Container(
+          width: 82,
+          height: 82,
+          decoration: BoxDecoration(
+            color: _accentColor.withValues(alpha: 0.16),
+            shape: BoxShape.circle,
+            border: Border.all(color: _accentColor.withValues(alpha: 0.28)),
+          ),
+          child: const Icon(Icons.style, size: 42, color: _accentColor),
+        ),
+        const SizedBox(height: 18),
+        const Text(
+          'TCG App',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 34,
+            height: 1,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Entre para explorar coleções, cartas e abrir packs.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.62),
+            fontSize: 15,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoginCard() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: _surfaceColor,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.22),
+            blurRadius: 24,
+            offset: const Offset(0, 16),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: _warmAccentColor.withValues(alpha: 0.13),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
+          const SizedBox(height: 20),
+          _buildTextField(
+            controller: _username,
+            label: 'Usuario',
+            icon: Icons.person,
+            textInputAction: TextInputAction.next,
+          ),
+          const SizedBox(height: 14),
+          _buildTextField(
+            controller: _password,
+            label: 'Senha',
+            icon: Icons.lock,
+            obscureText: _hide,
+            suffixIcon: IconButton(
+              icon: Icon(_hide ? Icons.visibility : Icons.visibility_off),
+              onPressed: () => setState(() => _hide = !_hide),
+            ),
+            onSubmitted: (_) => _login(),
+          ),
+          const SizedBox(height: 20),
+          FilledButton(
+            onPressed: _loading ? null : _login,
+            style: FilledButton.styleFrom(
+              backgroundColor: _accentColor,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: _loading
+                ? const SizedBox(
+                    width: 21,
+                    height: 21,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.4,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Text(
+                    'Entrar',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputAction? textInputAction,
+    bool obscureText = false,
+    Widget? suffixIcon,
+    ValueChanged<String>? onSubmitted,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      textInputAction: textInputAction,
+      onSubmitted: onSubmitted,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        suffixIcon: suffixIcon,
+        filled: true,
+        fillColor: const Color(0xFF0D1020),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: _accentColor, width: 1.6),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegisterLink() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Ainda nao tem conta?',
+          style: TextStyle(color: Colors.white.withValues(alpha: 0.62)),
+        ),
+        TextButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const RegisterScreen()),
+          ),
+          child: const Text(
+            'Cadastre-se',
+            style: TextStyle(fontWeight: FontWeight.w900),
+          ),
+        ),
+      ],
     );
   }
 }
